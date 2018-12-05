@@ -1,22 +1,78 @@
-<h1>This is the index page</h1>
+<div class="row">
+  <div class="col-md-6">
+    <h1>Add a Doctor:</h1>
+    <form action="/doctor" method="post">
+      Doctor Name: <input type="text" name="doc_name" value="">
+      <br>
+      Specialty: <input type="text" name="doc_specialty" value="">
+      <br>
+      <button type="submit">Enter</button>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <h1>Add a Patient:</h1>
+    <form action="/patient" method="post">
+      Patient Name: <input type="text" name="patient_name" value="">
+      <br>
+      DOB: <input class="form-control" type="date" name="patient_dob" value="">
+      <br>
+      <button type="submit">Enter</button>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Doctor</th>
+          <th scope="col">Specialty</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @doctors.any?() %>
+        Here's a list of all of your doctors:
 
-<p>Enter a new list name below.</p>
-<p>Add tasks to your lists by clicking the link to navigate to the list detail page.</p>
+        <% @doctors.each_with_index do |doctor, index|%>
+        <tr>
+          <th scope="row"><%= index+1 %></th>
+          <td><a href="/doctors/<%= doctor.id %>"><%= doctor.name %></a></td>
+          <td><%= doctor.specialty%>
+          </tr>
+          <%end%>
+        </tbody>
+      </table>
 
-<form action="/" method="post">
-  Doctor Name: <input type="text" name="doc_name" value="">
-  Specialty: <input type="text" name="doc_specialty" value="">
-  <button type="submit" name="enter">Enter</button>
-</form>
+      <% else %>
+      <br><br><br><br>
+      <p>You don't have any doctors yet!</p>
+      <% end %>
+    </div>
+    <div class="col-md-6">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Patient</th>
+            <th scope="col">Date of Birth</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @patients.any?() %>
+          Here's a list of all of your doctors:
 
-<% if @doctors.any?() %>
-  Here's a list of all of your doctors:
-  <ul>
-    <% @doctors.each do |doctor|%>
-    <li id="<%= doctor.id %>"><a href="/tasks/<%= doctor.id %>"><%= doctor.name %></a></li>
-    <%end%>
-  </ul>
-<% else %>
-<br><br><br><br>
-  <p>You don't have any doctors yet!</p>
-<% end %>
+          <% @patients.each_with_index do |patient, index|%>
+          <tr>
+            <th scope="row"><%= index+1 %></th>
+            <td><a href="/patients/<%= patient.id %>"><%= patient.name %></a></td>
+            <td><%= patient.birth_date%>
+            </tr>
+            <%end%>
+          </tbody>
+        </table>
+
+        <% else %>
+        <br><br><br><br>
+        <p>You don't have any patients yet!</p>
+        <% end %>
+      </div>
+</div>

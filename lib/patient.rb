@@ -1,30 +1,33 @@
 require'pry'
 
 class Patient
-  attr_reader(:description, :list_id)
+  attr_reader(:name, :birth_date, :id, :my_doctor)
 
   def initialize(attributes)
-    @description = attributes[:description]
-    @list_id = attributes[:list_id]
+    @name = attributes[:name]
+    @birth_date = attributes[:birth_date]
+    @id = attributes[:id]
+    @my_doctor = attributes[:my_doctor]
   end
 
   def self.all
-    returned_tasks = DB.exec("SELECT * FROM tasks;")
-    tasks = []
-    returned_tasks.each() do |task|
-      description = task["description"]
-      list_id = task["list_id"].to_i
-      tasks.push(Task.new({:description => description, :list_id => list_id}))
+    patients = []
+    patients_db_table = DB.exec("SELECT * FROM patients;")
+    patients_db_table.each() do |patient|
+      name = patient["name"]
+      birth_date = patient["birth_date"]
+      patients.push(Patient.new({:name => name, :birth_date => birth_date, :id => nil}))
     end
-    tasks
+    patients
   end
 
-  def ==(other)
-    @description == other.description && @list_id == other.list_id
+  def ==(other_instance)
+    @name == other_instance.name && @birth_date == other_instance.birth_date
   end
 
   def save
-    DB.exec("INSERT INTO tasks (description, list_id) VALUES ('#{@description}', #{@list_id});")
+    result = DB.exec("INSERT INTO patients (name, birth_date) VALUES ('#{@name}', '#{@birth_date}') RETURNING id;")
+    @id = result.first["id"].to_i
   end
 
 end

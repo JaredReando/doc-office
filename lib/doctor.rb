@@ -27,7 +27,7 @@ class Doctor
     all_doctors = Doctor.all
     all_doctors.each do |doctor|
       if doctor.id == doctor_id
-        found_list = doctor
+        found_doctor = doctor
       end
     end
     found_doctor
@@ -49,7 +49,8 @@ class Doctor
     list_tasks
   end
 
-  def ==(other)
-    @name == other.name
+  def ==(other_instance)
+    @name == other_instance.name
+    @specialty == other_instance.specialty
   end
 end

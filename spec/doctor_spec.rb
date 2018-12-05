@@ -16,35 +16,43 @@ describe(Doctor) do
 
   # describe("#id") do
   #   it("sets its id when saved") do
-  #     list = Doctor.new({:name => "stuff", :id => nil})
-  #     list.save()
-  #     expect(list.id()).to(be_an_instance_of(Integer))
+  #     test_doctor1 = Doctor.new({:name => "Jim", :specialty => "heart", :id => nil})
+  #     test_doctor1.save()
+  #     expect(test_doctor1.id()).to(be_an_instance_of(Integer))
+  #     binding.pry
   #   end
   # end
-  #
-  describe("#save") do
-    it("saves list to the database") do
-      list = Doctor.new({:name => "stuff", :id => nil})
-      list.save()
-      expect(Doctor.all()).to(eq([list]))
+
+    describe("#id") do
+    it("sets its id when saved") do
+      doctor = Doctor.new({:name => "Jim", :specialty => "head", :id => nil})
+      doctor.save()
+      expect(doctor.id()).to(be_an_instance_of(Integer))
     end
   end
-  #
-  # describe("#==") do
-  #   it("is the same if the id and name match") do
-  #     list1 = Doctor.new({:name => "stuff", :id => nil})
-  #     list2 = Doctor.new({:name => "stuff", :id => nil})
-  #     expect(list1).to(eq(list2))
-  #   end
-  # end
-  #
+
+  describe("#save") do
+    it("saves doctor to the database") do
+      test_doctor1 = Doctor.new({:name => "Jim", :specialty => "heart", :id => nil})
+      test_doctor1.save
+      expect(Doctor.all()).to(eq([test_doctor1]))
+    end
+  end
+
+  describe("#==") do
+    it("is the same if the id and name match") do
+      test_doctor1 = Doctor.new({:name => "Jim", :specialty => "heart", :id => nil})
+      test_doctor2 = Doctor.new({:name => "Jim", :specialty => "heart", :id => nil})
+      expect(test_doctor1).to(eq(test_doctor2))
+    end
+  end
+
   describe(".find") do
     it("resturns a doctor by its ID") do
       test_doctor1 = Doctor.new({:name => "Jim", :specialty => "heart", :id => nil})
       test_doctor1.save()
       test_doctor2 = Doctor.new({:name => "Erica", :specialty => "hand", :id => nil})
       test_doctor2.save()
-      # binding.pry
       expect(Doctor.find(test_doctor1.id)).to(eq(test_doctor1))
     end
   end
